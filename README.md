@@ -28,20 +28,20 @@ Things you may want to cover:
 
 ## users テーブル
 
-| Column        | Type    | Options                        |
-| ------------- | --------| ------------------------------ |
-| user_id       | integer | null: false, PK                |
-| nick_name     | string  | null: false                    |
-| name          | string  | null: false                    |
-| name_kana     | string  | null: false                    |
-| birth_date    | date    | null: false                    |
-| password      | string  | null: false                    |
-| email_address | string  | null: false                    |
-| personal_id   | integer | null: false, foreign_key: true |
+| Column            | Type    | Options                        |
+| -------------     | --------| ------------------------------ |
+| user_id           | integer | null: false, PK                |
+| nickname          | string  | null: false                    |
+| family_name       | string  | null: false                    |
+| first_name        | string  | null: false                    |
+| family_name_kana  | string  | null: false                    |
+| first_name_kana   | string  | null: false                    |
+| birth_date        | date    | null: false                    |
+| password          | string  | null: false                    |
+| email_address     | string  | null: false                    |
 
 ### Association
 
-- belongs_to :user
 - has_many :items
 
 
@@ -52,12 +52,12 @@ Things you may want to cover:
 | item_id           | integer | null: false, PK                 |
 | goods             | string  | null: false                     |
 | price             | decimal | null: false                     |
-| condition         | string  | null: false                     |
-| delivery_fee      | string  | null: false                     |
-| origin_area       | string  | null: false                     |
-| shipment_date     | string  | null: false                     |
+| condition         | integer | null: false                     |
+| delivery_fee      | integer | null: false                     |
+| origin_area       | integer | null: false                     |
+| shipment_date     | integer | null: false                     |
 | shipper_comment   | text    | null: false                     |
-| category_id       | integer | null: false, foreign_key: true  |
+| category_id       | integer | null: false                     |
 | user_id           | integer | null: false, foreign_key: true  |
 
 
@@ -65,6 +65,8 @@ Things you may want to cover:
 
 - belongs_to :user
 - has_one :shipping_address
+- has_one :purchase
+
 
 ## shipping_addresses テーブル
 
@@ -74,10 +76,22 @@ Things you may want to cover:
 | postal_code    | string  | null: false                    |
 | address        | string  | null: false                    |
 | phone_number   | string  | null: false                    |
-| user_id        | integer | null: false, foreign_key: true |
 | item_id        | integer | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :item
-- belongs_to :user
+- belongs_to :purchase
+
+## purchase テーブル
+
+| Column         | Type    | Options                        |
+| -------------- | --------| ------------------------------ |
+| purchase_id    | integer | null: false, PK                |
+| user_id        | integer | null: false, foreign_key: true |
+| item_id        | integer | null: false, foreign_key: true |
+
+### Association
+
+- has_one :shipping_address
+- belongs_to :item
