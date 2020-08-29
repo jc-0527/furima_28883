@@ -73,7 +73,7 @@ Things you may want to cover:
 | prefectures    | integer    | null: false                    |
 | municipalities | string     | null: false                    |
 | address        | string     | null: false                    |
-| building_name  | string     | null: false                    |
+| building_name  | string     |                                |
 | phone_number   | string     | null: false                    |
 | purchase       | references | null: false, foreign_key: true |
 
