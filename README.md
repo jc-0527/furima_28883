@@ -29,8 +29,7 @@ Things you may want to cover:
 ## users テーブル
 
 | Column            | Type    | Options                        |
-| -------------     | --------| ------------------------------ |
-| user_id           | integer | null: false, PK                |
+| ----------------- | --------| ------------------------------ |
 | nickname          | string  | null: false                    |
 | family_name       | string  | null: false                    |
 | first_name        | string  | null: false                    |
@@ -47,53 +46,50 @@ Things you may want to cover:
 
 ## items テーブル
 
-| Column            | Type    | Options                         |
-| ----------------- | ------- | ------------------------------  |
-| item_id           | integer | null: false, PK                 |
-| goods             | string  | null: false                     |
-| price             | integer | null: false                     |
-| condition         | integer | null: false                     |
-| delivery_fee      | integer | null: false                     |
-| origin_area       | integer | null: false                     |
-| shipment_date     | integer | null: false                     |
-| shipper_comment   | text    | null: false                     |
-| category_id       | integer | null: false                     |
-| user_id           | integer | null: false, foreign_key: true  |
+| Column            | Type        | Options                         |
+| ----------------- | ----------- | ------------------------------  |
+| goods             | string      | null: false                     |
+| price             | integer     | null: false                     |
+| condition         | integer     | null: false                     |
+| delivery_fee      | integer     | null: false                     |
+| origin_area       | integer     | null: false                     |
+| shipment_date     | integer     | null: false                     |
+| shipper_comment   | text        | null: false                     |
+| category_id       | integer     | null: false                     |
+| user              | references  | null: false, foreign_key: true |
 
 
 ### Association
 
 - belongs_to :user
-- belongs_to :purchase
+- has_one :purchase
 
 
 ## shipping_addresses テーブル
 
-| Column         | Type    | Options                        |
-| -------------- | --------| ------------------------------ |
-| shipping_id    | integer | null: false, PK                |
-| postal_code    | string  | null: false                    |
-| prefectures    | string  | null: false                    |
-| municipalities | string  | null: false                    |
-| address        | string  | null: false                    |
-| building_name  | string  | null: false                    |
-| phone_number   | string  | null: false                    |
-| item_id        | integer | null: false, foreign_key: true |
+| Column         | Type       | Options                        |
+| -------------- | ---------- | ------------------------------ |
+| postal_code    | string     | null: false                    |
+| prefectures    | integer    | null: false                    |
+| municipalities | string     | null: false                    |
+| address        | string     | null: false                    |
+| building_name  | string     | null: false                    |
+| phone_number   | string     | null: false                    |
+| purchase       | references | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :purchase
 
-## purchase テーブル
+## purchases テーブル
 
-| Column         | Type    | Options                        |
-| -------------- | --------| ------------------------------ |
-| purchase_id    | integer | null: false, PK                |
-| user_id        | integer | null: false, foreign_key: true |
-| item_id        | integer | null: false, foreign_key: true |
+| Column         | Type       | Options                        |
+| -------------- | ---------- | ------------------------------ |
+| user           | references | null: false, foreign_key: true |
+| item           | references | null: false, foreign_key: true |
 
 ### Association
 
 - has_one :shipping_address
 - belongs_to :user
-- has_one :item
+- belongs_to :item
