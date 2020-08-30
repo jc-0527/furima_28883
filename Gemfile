@@ -60,5 +60,3 @@ end
 gem 'devise'
 
 gem 'pry-rails'
-
-gem 'rspec-rails', '~> 4.0.0'
