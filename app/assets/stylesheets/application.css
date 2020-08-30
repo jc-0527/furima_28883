@@ -23,3 +23,9 @@
   font-size: 12px;
   font-weight: bold;
 }
+
+.error-message {
+  font-size: 1.3vw;
+  list-style: circle;
+  color: #b63000;
+}
