@@ -1,0 +1,2 @@
+class OriginArea < ApplicationRecord
+end
