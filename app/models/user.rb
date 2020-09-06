@@ -8,11 +8,13 @@ class User < ApplicationRecord
   validates :password, confirmation: true, length: {minimum: 6}
   PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze
   validates_format_of :password, with: PASSWORD_REGEX, message: "Password Include both letters and numbers" 
-  with_options presence: true, format: { with: /\A[ぁ-んァ-ン一-龥]+\z/, message: 'Full-width characters' } do
+  WIDTH_REGEX = /\A[ぁ-んァ-ン一-龥]+\z/
+  with_options presence: true, format: { with: WIDTH_REGEX, message: 'Full-width characters' } do
     validates :family_name
     validates :first_name
   end
-  with_options presence: true, format: { with: /\A[ァ-ン一]+\z/, message: 'Full-width katakana characters' } do
+  WIDTH_KATAKANA_REGEX = /\A[ァ-ン一]+\z/
+  with_options presence: true, format: { with: WIDTH_KATAKANA_REGEX, message: 'Full-width katakana characters' } do
     validates :family_name_kana
     validates :first_name_kana
   end
