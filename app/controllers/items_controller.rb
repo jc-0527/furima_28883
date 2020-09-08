@@ -5,7 +5,21 @@ class ItemsController < ApplicationController
   end
 
   def new
-    @items = Item.new
+    @item = Item.new
+  end
+
+  def create
+    @item = Item.create(items_params)
+    if @item.save!
+    # binding.pry
+    redirect_to :action => 'index'
+    end
+
+  end
+
+  private
+  def items_params
+    params.require(:item).permit(:name, :goods, :shipper_comment, :category_id, :condition_id, :delivery_fee_id, :origin_area_id, :shipment_date_id, :price).merge(user_id: current_user.id)
   end
 
   def move_to_index
@@ -13,5 +27,5 @@ class ItemsController < ApplicationController
       redirect_to action: :index
     end
   end
-  
+
 end

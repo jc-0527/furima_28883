@@ -9,4 +9,5 @@ class Item < ApplicationRecord
   belongs_to_active_hash :origin_area
   belongs_to_active_hash :shipment_date
   validates :category_id, numericality: { other_than: 1 }
+  has_one_attached :name
 end

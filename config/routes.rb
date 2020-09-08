@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get '/', to: 'items#index'
   resources(:items)
+  post '/items/new', to: 'items#create'
 end
