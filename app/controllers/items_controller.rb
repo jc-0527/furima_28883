@@ -10,12 +10,14 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.create(items_params)
-    if @item.save!
-    # binding.pry
-    redirect_to :action => 'index'
+    @item = Item.new(items_params)
+    if (@item.save) then
+      redirect_to :root #成功の場合
+    else
+      render 'new' #失敗の場合
     end
 
+    # redirect_to :action => 'index'
   end
 
   private
