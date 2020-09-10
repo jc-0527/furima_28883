@@ -28,8 +28,13 @@ function calc() {
 }
 
 function execute(){
-  let input = document.getElementById('item-price');
-  input.addEventListener("input", calc);
+  // "http://localhost:3000/items/new"にアクセスがあった場合
+  if ( "http://localhost:3000/items/new" == location.href){
+    console.log(location.href);
+    let input = document.getElementById('item-price');
+    console.log(input);
+    input.addEventListener("input", calc);
+  }
 }
 
-window.addEventListener('load',execute);
+window.addEventListener('turbolinks:load',execute);
