@@ -28,8 +28,8 @@ function calc() {
 }
 
 function execute(){
-  // "http://localhost:3000/items/new"にアクセスがあった場合
-  if ( "http://localhost:3000/items/new" == location.href){
+  // item-price要素がある場合のみ実行
+  if ( document.getElementById('item-price') != null ){
     console.log(location.href);
     let input = document.getElementById('item-price');
     console.log(input);
