@@ -19,6 +19,17 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    @item = Item.find(params[:id])
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    lsUpdate = @item.update(items_params)
+    if lsUpdate     # 成功の場合
+      redirect_to action: 'show'
+    else            # 失敗の場合
+      render 'edit'
+    end
   end
 
   def show
