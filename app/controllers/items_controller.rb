@@ -2,7 +2,6 @@ class ItemsController < ApplicationController
   before_action(:move_to_index, except: [:index])
 
   def index
-    @items = Item.all()
   end
 
   def new
@@ -11,8 +10,8 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(items_params)
-    if (@item.save) then
-      redirect_to :action => 'index' #成功の場合
+    if (@item.save)
+      redirect_to action: 'index' #成功の場合
     else
       render 'new' #失敗の場合
     end

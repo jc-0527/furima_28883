@@ -1,6 +1,5 @@
 class Item < ApplicationRecord
   belongs_to :user
-  #has_one :purchase  
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :category
@@ -17,16 +16,14 @@ class Item < ApplicationRecord
   validates :goods, presence: true
   # 商品の説明のバリデーション
   validates :shipper_comment, presence: true
-  # カテゴリーのバリデーション
-  validates :category_id, numericality: { other_than: 1 , message: 'Select'}
-  # 商品の状態のバリデーション
-  validates :condition_id, numericality: { other_than: 1 , message: 'Select'}
-  # 配送料の負担のバリデーション
-  validates :delivery_fee_id, numericality: { other_than: 1 , message: 'Select'}
-  # 配送元の地域のバリデーション
-  validates :origin_area_id, numericality: { other_than: 1 , message: 'Select'}
-  # 発送までの日数のバリデーション
-  validates :shipment_date_id, numericality: { other_than: 1 , message: 'Select'}
+  # バリデーション
+  with_options numericality: { other_than: 1 , message: 'Select'} do
+    validates :category_id        # カテゴリー
+    validates :condition_id       # 商品の状態
+    validates :delivery_fee_id    # 配送料の負担
+    validates :origin_area_id     # 配送元の地域
+    validates :shipment_date_id   # 発送までの日数
+  end
   # 価格のバリデーション
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 300 , less_than_or_equal_to:	9999999 , message: 'Out of setting range'}
     

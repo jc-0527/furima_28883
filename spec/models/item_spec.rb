@@ -29,28 +29,28 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipper comment can't be blank")
       end
-      it "category_idが空では登録できない" do
-        @item.category_id = ''
+      it "category_idが1(--)では登録できない" do
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Category Select")
       end
-      it "condition_idが空では登録できない" do
-        @item.condition_id = ''
+      it "condition_idが1(--)では登録できない" do
+        @item.condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Condition Select")
       end
-      it "delivery_fee_idが空では登録できない" do
-        @item.delivery_fee_id = ''
+      it "delivery_fee_idが1(--)では登録できない" do
+        @item.delivery_fee_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery fee Select")
       end
-      it "origin_area_idが空では登録できない" do
-        @item.origin_area_id = ''
+      it "origin_area_idが1(--)では登録できない" do
+        @item.origin_area_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Origin area Select")
       end
-      it "shipment_date_idが空では登録できない" do
-        @item.shipment_date_id = ''
+      it "shipment_date_idが1(--)では登録できない" do
+        @item.shipment_date_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipment date Select")
       end

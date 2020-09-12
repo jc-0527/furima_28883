@@ -9,10 +9,8 @@ function calc() {
 
   // 価格（表示）
   price_text = document.getElementById('item-price');
-  console.log(price_text);
   // 販売手数料（表示）
   tax_price_text = document.getElementById('add-tax-price');
-  console.log(tax_price_text);
   // 価格（数値）
   price = price_text.value;
 
@@ -30,9 +28,7 @@ function calc() {
 function execute(){
   // item-price要素がある場合のみ実行
   if ( document.getElementById('item-price') != null ){
-    console.log(location.href);
     let input = document.getElementById('item-price');
-    console.log(input);
     input.addEventListener("input", calc);
   }
 }
