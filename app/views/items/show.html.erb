@@ -33,7 +33,7 @@
       <%= link_to '削除', item_path(@item.id), method: :delete, class:'item-destroy' %>
     <%# ログインしているユーザー != 出品しているユーザーの場合 かつ商品が売れていない場合かつログインしているか %>
     <% elsif true %> <%# 現時点では、purchases テーブルが存在しないので、商品が売れていないとする %>
-      <%= link_to '購入画面に進む', "#" ,class:"item-red-btn"%>
+      <%= link_to '購入画面に進む', "/items/#{@item.id}/transactions" ,class:"item-red-btn"%>
     <%# ログインしていない場合かつ商品が売れていない場合 %>
     <% elsif true %>
       <%= link_to '購入画面に進む', new_user_session_path ,class:"item-red-btn"%>
