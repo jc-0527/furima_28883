@@ -4,7 +4,7 @@
 <div class="item-show">
   <div class="item-box">
     <h2 class="name">
-      <%= "商品名" %>
+      <%= @item.goods %>
     </h2>
     <div class='item-img-content'>
       <%= image_tag @item.image ,class:"item-box-img" %>
@@ -30,7 +30,7 @@
     <% if current_user == @item.user %>
       <%= link_to '商品の編集', edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
       <p class='or-text'>or</p>
-      <%= link_to '削除', "#", method: :delete, class:'item-destroy' %>
+      <%= link_to '削除', item_path(@item.id), method: :delete, class:'item-destroy' %>
     <%# ログインしているユーザー != 出品しているユーザーの場合 かつ商品が売れていない場合かつログインしているか %>
     <% elsif true %> <%# 現時点では、purchases テーブルが存在しないので、商品が売れていないとする %>
       <%= link_to '購入画面に進む', "#" ,class:"item-red-btn"%>
