@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action(:move_to_index, except: [:index,:show])
+  before_action(:find_item, only:[:edit,:update,:show])
 
   def index
     @items = Item.all().order(created_at: :DESC )
@@ -19,13 +20,11 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    @item = Item.find(params[:id])
   end
 
   def update
-    @item = Item.find(params[:id])
-    lsUpdate = @item.update(items_params)
-    if lsUpdate     # 成功の場合
+    item = @item.update(items_params)
+    if item     # 成功の場合
       redirect_to action: 'show'
     else            # 失敗の場合
       render 'edit'
@@ -33,7 +32,6 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
   end
 
   private
@@ -45,6 +43,10 @@ class ItemsController < ApplicationController
     unless user_signed_in?
       redirect_to action: :index
     end
+  end
+
+  def find_item
+    @item = Item.find(params[:id])
   end
 
 end
