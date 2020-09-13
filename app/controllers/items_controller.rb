@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action(:move_to_index, except: [:index,:show])
+  before_action(:find_item, only:[:edit,:update,:show,:destroy])
 
   def index
     @items = Item.all().order(created_at: :DESC )
@@ -19,13 +20,11 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    @item = Item.find(params[:id])
   end
 
   def update
-    @item = Item.find(params[:id])
-    lsUpdate = @item.update(items_params)
-    if lsUpdate     # 成功の場合
+    item = @item.update(items_params)
+    if item     # 成功の場合
       redirect_to action: 'show'
     else            # 失敗の場合
       render 'edit'
@@ -33,12 +32,15 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    Item.find(params[:id]).destroy
-    redirect_to action: 'index'
+    if (@item.user_id == current_user.id) then  # 出品者とログインユーザーが同じ場合(成功)
+      @item.destroy                             # 削除できる
+      redirect_to action: 'index'
+    else                                        # 失敗の場合
+      render 'show'                             # 商品詳細表示画面を表示する
+    end  
   end
 
   def show
-    @item = Item.find(params[:id])
   end
 
   private
@@ -50,6 +52,10 @@ class ItemsController < ApplicationController
     unless user_signed_in?
       redirect_to action: :index
     end
+  end
+
+  def find_item
+    @item = Item.find(params[:id])
   end
 
 end
