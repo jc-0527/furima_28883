@@ -32,7 +32,6 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    binding.pry
     if (@item.user_id == current_user.id) then  # 出品者とログインユーザーが同じ場合(成功)
       @item.destroy                             # 削除できる
       redirect_to action: 'index'
