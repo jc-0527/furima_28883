@@ -1,12 +1,14 @@
 class OrdersController < ApplicationController
 
   def index
-    @item = Item.find(params[:id])
+    binding.pry
+    @item = Item.find(params[:item_id])
     @order = Order.new
   end
 
   def create
     @order = Order.new(order_params)
+    binding.pry
     if @order.valid?
       pay_item
       @order.save
