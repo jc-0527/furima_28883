@@ -1,20 +1,25 @@
+# require '/app/forms/purchase_info'
+
 class OrdersController < ApplicationController
 
   def index
-    binding.pry
     @item = Item.find(params[:item_id])
-    @order = Order.new
+    @purchase_info = PurchaseInfo.new
   end
 
   def create
-    @order = Order.new(order_params)
-    binding.pry
-    if @order.valid?
+    # @purchase_info = PurchaseInfo.new(db_params)
+    # @purchase_info.save
+    
+    @purchase_info = PurchaseInfo.new()
+
+    if @purchase_info.valid?
       pay_item
-      @order.save
-      return redirect_to root_path
-    else
-      render 'index'
+      if ( @purchase_info.save(db_params) )
+        return redirect_to root_path
+      else
+        render 'order'
+      end
     end
   end
 
@@ -31,6 +36,10 @@ class OrdersController < ApplicationController
       card: order_params[:token],    # カードトークン
       currency:'jpy'                 # 通貨の種類(日本円)
     )
+  end
+
+  def db_params
+    params.require(:purchase_info).permit(:postal_code, :prefectures, :municipalities, :address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id])
   end
 
 end
