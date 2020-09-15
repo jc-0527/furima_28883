@@ -8,38 +8,33 @@ class OrdersController < ApplicationController
   end
 
   def create
-    # @purchase_info = PurchaseInfo.new(db_params)
-    # @purchase_info.save
+    @item =  Item.find(params[:item_id])
+    @purchase_info = PurchaseInfo.new(db_params)
     
-    @purchase_info = PurchaseInfo.new()
-
-    if @purchase_info.valid?
+    # バリデーションが正常かつ購入管理テーブルと配送先テーブルの両方に情報を正常に保存できたとき
+    if ( @purchase_info.valid? && @purchase_info.save )
       pay_item
-      if ( @purchase_info.save(db_params) )
-        return redirect_to root_path
-      else
-        render 'order'
-      end
+      return redirect_to root_path  # メイン画面に戻る
+    # それ以外
+    else
+      render 'index'  # 購入内容の確認画面に戻る
     end
   end
 
   private
 
-  def order_params
-    params.permit(:price, :token)
-  end
-
   def pay_item
+    item = Item.find(params[:item_id])
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  # PAY.JPテスト秘密鍵
-    Payjp::Charge.create(
-      amount: order_params[:price],  # 商品の値段
-      card: order_params[:token],    # カードトークン
-      currency:'jpy'                 # 通貨の種類(日本円)
+    ls = Payjp::Charge.create(
+      amount: item.price,               # 商品の値段
+      card: db_params[:token],          # カードトークン
+      currency: 'jpy'                   # 通貨の種類(日本円)
     )
   end
 
   def db_params
-    params.require(:purchase_info).permit(:postal_code, :prefectures, :municipalities, :address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id])
+    params.require(:purchase_info).permit(:postal_code, :prefectures, :municipalities, :address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
 
 end
