@@ -8,14 +8,12 @@
     </h2>
     <div class='item-img-content'>
       <%= image_tag @item.image ,class:"item-box-img" %>
-      <%# 商品が売れている場合は、sold outを表示しましょう %>
-      <%# purchases テーブルが存在しないので、とりあえず必ず分岐を通るように設定 %>
-      <% if true then %>
+      <%# 商品が売れていればsold outを表示 %>
+      <% if (@item.purchase.present?) then %>
         <div class='sold-out'>
           <span>Sold Out!!</span>
         </div>
       <% end %>
-      <%# //商品が売れている場合は、sold outを表示しましょう %>
     </div>
     <div class="item-price-box">
       <span class="item-price">
@@ -31,11 +29,11 @@
       <%= link_to '商品の編集', edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
       <p class='or-text'>or</p>
       <%= link_to '削除', item_path(@item.id), method: :delete, class:'item-destroy' %>
-    <%# ログインしているユーザー != 出品しているユーザーの場合 かつ商品が売れていない場合かつログインしているか %>
-    <% elsif true %> <%# 現時点では、purchases テーブルが存在しないので、商品が売れていないとする %>
+    <%# ログインしており、かつログインしているユーザー != 出品しているユーザーの場合 かつ商品が売れていない場合 %>
+    <% elsif (current_user != nil) && (@item.purchase.present? == false) %> <%# 現時点では、purchases テーブルが存在しないので、商品が売れていないとする %>
       <%= link_to '購入画面に進む', item_orders_path(@item.id) ,class:"item-red-btn"%>
     <%# ログインしていない場合かつ商品が売れていない場合 %>
-    <% elsif true %>
+    <% elsif (current_user == nil) && (@item.purchase.present? == false) %>
       <%= link_to '購入画面に進む', new_user_session_path ,class:"item-red-btn"%>
     <% end %>
 
