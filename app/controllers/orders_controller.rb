@@ -1,7 +1,7 @@
-# require '/app/forms/purchase_info'
-
 class OrdersController < ApplicationController
-
+  before_action(:authenticate_user!)
+  before_action(:move_to_items_index)
+ 
   def index
     @item = Item.find(params[:item_id])
     @purchase_info = PurchaseInfo.new
@@ -35,6 +35,13 @@ class OrdersController < ApplicationController
 
   def db_params
     params.require(:purchase_info).permit(:postal_code, :prefectures, :municipalities, :address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+  end
+
+  def move_to_items_index
+    # ログインユーザーと出品者が同じ場合 または、その商品が購入されている場合
+    if ( (current_user.id == Item.find(params[:item_id]).user_id) ||  (Item.find(params[:item_id]).purchase != nil) )
+      redirect_to(controller: 'items', action: 'index')           # メイン画面に戻る
+    end
   end
 
 end

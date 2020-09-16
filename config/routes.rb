@@ -5,5 +5,4 @@ Rails.application.routes.draw do
   resources(:items) do
     resources(:orders)
   end
-  # get '/items/:id/transactions', to: 'orders#index'
 end
