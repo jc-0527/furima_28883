@@ -53,4 +53,8 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
+  def find_item
+    @item = Item.find(params[:id])
+  end
+
 end
