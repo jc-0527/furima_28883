@@ -20,7 +20,7 @@ RSpec.describe PurchaseInfo, type: :model do
         @purchase_info.valid?
         expect(@purchase_info.errors.full_messages).to include("Postal code can't be blank")
       end
-      it "municipalitiesが一意でなかったら登録できない" do
+      it "municipalitiesが空では登録できない" do
         @purchase_info.municipalities = ''
         @purchase_info.valid?
         expect(@purchase_info.errors.full_messages).to include("Municipalities can't be blank")
@@ -46,29 +46,20 @@ RSpec.describe PurchaseInfo, type: :model do
         expect(@purchase_info.errors.full_messages).to include("Prefectures Select")
       end
       it "postal_codeは○○○-○○○○の形式でなければ登録できない" do
-        @purchase_info.postal_code = "1111111"
-        @purchase_info.valid?
-        expect(@purchase_info.errors.full_messages).to include("Postal code Input correctly")
-        @purchase_info.postal_code = "11111111"
-        @purchase_info.valid?
-        expect(@purchase_info.errors.full_messages).to include("Postal code Input correctly")
-        @purchase_info.postal_code = "1111-1111"
-        @purchase_info.valid?
-        expect(@purchase_info.errors.full_messages).to include("Postal code Input correctly")
-        @purchase_info.postal_code = "111-11111"
-        @purchase_info.valid?
-        expect(@purchase_info.errors.full_messages).to include("Postal code Input correctly")
+        postal_codes = %w("1111111", "11111111", "1111-1111", "111-11111")
+        postal_codes.each do | postal_code |
+          @purchase_info.postal_code = postal_code
+          @purchase_info.valid?
+          expect(@purchase_info.errors.full_messages).to include("Postal code Input correctly")
+        end
       end
       it "phone_numberは11桁の半角数字の形式でなければ登録できない" do
-        @purchase_info.phone_number = "1111-111111"
-        @purchase_info.valid?
-        expect(@purchase_info.errors.full_messages).to include("Phone number must be half-width numbers")
-        @purchase_info.postal_code = "11111-111111"
-        @purchase_info.valid?
-        expect(@purchase_info.errors.full_messages).to include("Phone number must be half-width numbers")
-        @purchase_info.postal_code = "aaaaaaaaaa1"
-        @purchase_info.valid?
-        expect(@purchase_info.errors.full_messages).to include("Phone number must be half-width numbers")
+        phone_numbers = %w("1111-111111", "11111-111111", "aaaaaaaaaa1")
+        phone_numbers.each do | phone_number |
+          @purchase_info.phone_number = phone_number
+          @purchase_info.valid?
+          expect(@purchase_info.errors.full_messages).to include("Phone number must be half-width numbers")
+        end
       end
     end
   end

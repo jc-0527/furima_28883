@@ -1,14 +1,13 @@
 class OrdersController < ApplicationController
   before_action(:authenticate_user!)
   before_action(:move_to_items_index)
+  before_action(:find_item, only:[:index,:create])
  
   def index
-    @item = Item.find(params[:item_id])
     @purchase_info = PurchaseInfo.new
   end
 
   def create
-    @item =  Item.find(params[:item_id])
     @purchase_info = PurchaseInfo.new(db_params)
     
     # バリデーションが正常かつ購入管理テーブルと配送先テーブルの両方に情報を正常に保存できたとき
@@ -42,6 +41,10 @@ class OrdersController < ApplicationController
     if ( (current_user.id == Item.find(params[:item_id]).user_id) ||  (Item.find(params[:item_id]).purchase != nil) )
       redirect_to(controller: 'items', action: 'index')           # メイン画面に戻る
     end
+  end
+
+  def find_item
+    @item = Item.find(params[:item_id])
   end
 
 end
