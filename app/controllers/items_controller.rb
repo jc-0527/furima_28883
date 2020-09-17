@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_action(:authenticate_user!, except: [:index,:show])
   before_action(:move_to_index, except: [:index,:show])
   before_action(:find_item, only:[:edit,:update,:show,:destroy])
 
@@ -37,7 +38,7 @@ class ItemsController < ApplicationController
       redirect_to action: 'index'
     else                                        # 失敗の場合
       render 'show'                             # 商品詳細表示画面を表示する
-    end
+    end  
   end
 
   def show
@@ -48,10 +49,8 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :goods, :image, :shipper_comment, :category_id, :condition_id, :delivery_fee_id, :origin_area_id, :shipment_date_id, :price).merge(user_id: current_user.id)
   end
 
-  def move_to_index
-    unless user_signed_in?
-      redirect_to action: :index
-    end
+  def find_item
+    @item = Item.find(params[:id])
   end
 
   def find_item

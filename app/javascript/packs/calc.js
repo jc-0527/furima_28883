@@ -33,4 +33,4 @@ function execute(){
   }
 }
 
-window.addEventListener('turbolinks:load',execute);
+window.addEventListener('load',execute);

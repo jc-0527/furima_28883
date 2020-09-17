@@ -126,8 +126,8 @@
               <%= link_to item_path(item.id) do %>
                 <div class='item-img-content'>
                   <%= image_tag item.image.variant(resize:'500x500'), class: "item-img" if item.image.attached? %>
-                <%# 商品が売れていればsold outを表示(現段階ではpurchases テーブルが未作成のため、必ず分岐に入るように設定) %>
-                  <% if (true) then %>
+                <%# 商品が売れていればsold outを表示 %>
+                  <% if (item.purchase.present?) then %>
                     <div class='sold-out'>
                       <span>Sold Out!!</span>
                     </div>
